@@ -3,7 +3,9 @@ unique_ids:
     standard-page.html: KTXMCNRAYKUZ5BBEWBRED3CEZPDLRAPN
     theme.css: J7PZIHJMEMXA2CBKI6DUT4GKGIG2AIFG
   forms:
-    Form1: TZIMFZ6KZWUNZPFLBYB4UQD4OJ6NOVU3
+    MainPage: TZIMFZ6KZWUNZPFLBYB4UQD4OJ6NOVU3
+    MainPage.RowTemplate1: '1730471036748817148800252.4132'
   modules: {}
   scripts: {}
-  server_modules: {}
+  server_modules:
+    ServerModule1: '1730470440499419072837360.23505'
