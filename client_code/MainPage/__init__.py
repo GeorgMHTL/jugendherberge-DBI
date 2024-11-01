@@ -5,6 +5,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+# Favorite Preiskat im dropdown selected
 
 class MainPage(MainPageTemplate):
   def __init__(self, **properties):
@@ -13,10 +14,15 @@ class MainPage(MainPageTemplate):
     self.user_id_index_relation = []
     self.price_id_index_relation = []
     self.room_id_index_relation = []
-    
+    self.extra_user_index = []
     self.init_components(**properties)
     self.loading_data()
-    # Any code you write here will run before the form opens.
+
+
+  # PROBLEM 
+  # DATUM IN DER DB
+  # DOPPELBUCHUNG !!!! am GLEICHEN TAG
+  
 
 
   # Loading
@@ -41,7 +47,7 @@ class MainPage(MainPageTemplate):
     self.load_user(self.extra_user_dropdown)
     self.load_price()
     self.load_room()
-
+    self.display_booking()
 
   def load_hostel(self):
     data_list = anvil.server.call('get_hostel')
@@ -79,25 +85,67 @@ class MainPage(MainPageTemplate):
     value = self.extra_user_dropdown.selected_value
     for text, i in self.extra_user_dropdown.items:
       if i == value:
-          print(text)
+          print(text) 
           name = Link( text=str(text))
           name.icon="fa:times"
           name.icon_align="left"
           name.background="#eee"
           name.role="lozenge"
           name.border="1px solid #888"
-          name.set_event_handler("click",self.del_btn)
+        
+          name.set_event_handler("click", lambda **k: self.del_btn(k, value))
+        
           if text not in [component.text for component in self.user_to_add.get_components()]:
+              self.extra_user_index.append(value)
               self.user_to_add.add_component(name)  # Add the Link component if it's not already added
           else:
               print(f"{text} is already added.")  # Optionally, notify that the item is already added
           break 
 
-  def del_btn(self,**k):
-    print("clicked by :",k['sender'].text)
-    k['sender'].remove_from_parent()
+  def del_btn(self, k, value):
+    print("clicked by:", k['sender'].text)
+    k['sender'].remove_from_parent()  # Remove the link from the UI
+    if value in self.extra_user_index:
+        self.extra_user_index.remove(value)  # Remove the value from the list
+        print(f"{value} removed from extra_user_index.")
+    else:
+        print(f"{value} not found in extra_user_index.")
+
+  def booking_btn_click(self, **event_args):
+    self.get_booking_data()
+    self.display_booking()
 
 
+  def get_booking_data(self):
+    main_BeID = self.transform_index_to_id(self.user_id_index_relation, self.user_dropdown.selected_value)
+    users = self.get_extra_user_id(main_BeID)
+    start_date = str(self.start_date.date)
+    end_date = str(self.end_Date.date)
+    zid = self.transform_index_to_id(self.room_id_index_relation, self.room_dropdown.selected_value)
+    print(zid)
+    print(users)
+    anvil.server.call('booking',users,start_date,end_date,zid)
+
+  def get_extra_user_id(self, main_ID):
+    users_id = []
+    for i in self.extra_user_index:
+      users_id.append(self.transform_index_to_id(self.user_id_index_relation,i))
+    if main_ID in users_id:
+      pass
+    else:
+      users_id.append(main_ID)
+      
+    return users_id
+    
+  def display_booking(self):
+    self.repeating_panel_1.items = None
+    data = anvil.server.call('get_data')
+
+    add_list = []
+    for i in data:
+      add_list.append({'column_1': i[0], 'column_2': i[1], 'column_3': i[2], 'column_4': i[3], 'column_5': i[4], 'column_6': i[5], })
+
+    self.repeating_panel_1.items = add_list
 
 
     

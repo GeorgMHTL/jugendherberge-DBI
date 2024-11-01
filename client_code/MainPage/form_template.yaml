@@ -72,10 +72,26 @@ components:
     name: spacer_1
     properties: {height: 86}
     type: Spacer
-  - layout_properties: {full_width_row: false, grid_position: 'MLXLAA,GRONBK'}
+  - event_bindings: {click: booking_btn_click}
+    layout_properties: {full_width_row: false, grid_position: 'MLXLAA,GRONBK'}
     name: booking_btn
     properties: {align: full, background: 'theme:Outline', bold: true, foreground: white, text: Jezt Buchen}
     type: Button
+  - components:
+    - name: repeating_panel_1
+      properties: {item_template: MainPage.RowTemplate2}
+      type: RepeatingPanel
+    layout_properties: {grid_position: 'ALWXAO,VQRQKS'}
+    name: data_grid_1
+    properties:
+      columns:
+      - {data_key: column_1, id: JKSDUP, title: Column 1}
+      - {data_key: column_2, expand: false, id: VJQQOR, title: Column 2, width: 310}
+      - {data_key: column_3, expand: false, id: OJLQEN, title: Column 3, width: 156}
+      - {data_key: column_4, id: XZIPGH, title: Column 4}
+      - {data_key: column_5, id: HRWSER, title: Column 5}
+      - {data_key: column_6, id: PKGVAW, title: Column 6}
+    type: DataGrid
   layout_properties: {slot: default}
   name: content_panel
   properties: {col_widths: '{}'}

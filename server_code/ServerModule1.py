@@ -55,3 +55,24 @@ def get_room(hostel_id, price_id):
   con.commit()
   con.close()
   return data
+
+@anvil.server.callable
+def booking(user, start_date, end_date,ZID):
+  con = sqlite3.connect(data_files["jugendherbergen_verwaltung.db"])
+  cursor = con.cursor()
+  cursor.execute(f"INSERT INTO buchung (startDatum, endDatum, ZID) VALUES ({start_date},{end_date},{ZID}); ")
+  con.commit()
+  BeID = cursor.lastrowid
+  for user_id in user:
+    cursor.execute(f"INSERT INTO benutzerBuchung (BuID, BeID) VALUES ({BeID}, {user_id});")
+    con.commit()
+  con.close()
+  
+@anvil.server.callable
+def get_data():
+  con = sqlite3.connect(data_files["jugendherbergen_verwaltung.db"])
+  cursor = con.cursor()
+  data = list(cursor.execute("SELECT * FROM view_benutzerBuchung;"))
+  con.commit()
+  con.close()
+  return data
