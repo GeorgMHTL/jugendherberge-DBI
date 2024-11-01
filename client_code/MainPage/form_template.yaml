@@ -74,5 +74,5 @@ components:
 container:
   properties: {html: '@theme:standard-page.html'}
   type: HtmlTemplate
-custom_component: true
+custom_component: false
 is_package: true
