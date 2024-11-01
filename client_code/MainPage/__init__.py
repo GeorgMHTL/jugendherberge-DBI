@@ -4,7 +4,7 @@ import anvil.server
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-from ._anvil_designer import MultiSelectDropDownTemplate
+
 
 class MainPage(MainPageTemplate):
   def __init__(self, **properties):
@@ -38,6 +38,7 @@ class MainPage(MainPageTemplate):
   def loading_data(self):
     self.load_hostel()
     self.load_user(self.user_dropdown)
+    self.load_user(self.extra_user_dropdown)
     self.load_price()
     self.load_room()
 
@@ -74,9 +75,29 @@ class MainPage(MainPageTemplate):
   def price_dropdown_change(self, **event_args):
     self.load_room()
 
-  def radio_button_1_clicked(self, **event_args):
-    ## Load user Dropdown
-    pass
+  def add_user_click(self, **event_args):
+    value = self.extra_user_dropdown.selected_value
+    for text, i in self.extra_user_dropdown.items:
+      if i == value:
+          print(text)
+          name = Link( text=str(text))
+          name.icon="fa:times"
+          name.icon_align="left"
+          name.background="#eee"
+          name.role="lozenge"
+          name.border="1px solid #888"
+          name.set_event_handler("click",self.del_btn)
+          if text not in [component.text for component in self.user_to_add.get_components()]:
+              self.user_to_add.add_component(name)  # Add the Link component if it's not already added
+          else:
+              print(f"{text} is already added.")  # Optionally, notify that the item is already added
+          break 
+
+  def del_btn(self,**k):
+    print("clicked by :",k['sender'].text)
+    k['sender'].remove_from_parent()
+
+
 
 
     
