@@ -4,6 +4,7 @@ import anvil.server
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+from datetime import datetime
 
 # Favorite Preiskat im dropdown selected
 
@@ -119,7 +120,7 @@ class MainPage(MainPageTemplate):
   def get_booking_data(self):
     main_BeID = self.transform_index_to_id(self.user_id_index_relation, self.user_dropdown.selected_value)
     users = self.get_extra_user_id(main_BeID)
-    if self.check_date(self.start_date.date, self.end_Date.date):
+    if self.check_date(self.start_date.date, self.end_Date.date, "%Y-%m-%d" ):
       start_date = str(self.start_date.date)
       end_date = str(self.end_Date.date)
       zid = self.transform_index_to_id(self.room_id_index_relation, self.room_dropdown.selected_value)
@@ -132,21 +133,15 @@ class MainPage(MainPageTemplate):
       
 
 
-  def check_date(self,start_date, end_date):
+  def check_date(self,start_date, end_date, date_format):
     # Define the date format
-    start = str(start_date).split("-")
-    end = str(end_date.split("-")
-              
-    if start[2] <= end[2]:
-      if start[1] <= end[1]:
-        if start[0] < end[0]:
-          return True
-        else:
-          return False
-      else:
-        return False
-    else:
-        return False
+   
+    
+    # Convert strings to datetime objects
+    d1 = datetime.strptime(str(start_date), date_format)
+    d2 = datetime.strptime(str(end_date), date_format)
+    
+    return d1 < d2
       
   
   def get_extra_user_id(self, main_ID):

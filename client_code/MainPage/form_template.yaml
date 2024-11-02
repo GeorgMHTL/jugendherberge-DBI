@@ -70,7 +70,7 @@ components:
     type: GridPanel
   - layout_properties: {grid_position: 'IZWSJB,DZUKEC'}
     name: spacer_1
-    properties: {height: 86}
+    properties: {height: 29}
     type: Spacer
   - event_bindings: {click: booking_btn_click}
     layout_properties: {full_width_row: false, grid_position: 'MLXLAA,GRONBK'}
