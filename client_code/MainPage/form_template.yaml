@@ -77,6 +77,10 @@ components:
     name: booking_btn
     properties: {align: full, background: 'theme:Outline', bold: true, foreground: white, text: Jezt Buchen}
     type: Button
+  - layout_properties: {grid_position: 'RLSKRN,SAULGP'}
+    name: booking_comback
+    properties: {}
+    type: Label
   - components:
     - name: repeating_panel_1
       properties: {item_template: MainPage.RowTemplate2}

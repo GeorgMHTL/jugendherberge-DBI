@@ -119,13 +119,36 @@ class MainPage(MainPageTemplate):
   def get_booking_data(self):
     main_BeID = self.transform_index_to_id(self.user_id_index_relation, self.user_dropdown.selected_value)
     users = self.get_extra_user_id(main_BeID)
-    start_date = str(self.start_date.date)
-    end_date = str(self.end_Date.date)
-    zid = self.transform_index_to_id(self.room_id_index_relation, self.room_dropdown.selected_value)
-    print(zid)
-    print(users)
-    anvil.server.call('booking',users,start_date,end_date,zid)
+    if self.check_date(self.start_date.date, self.end_Date.date):
+      start_date = str(self.start_date.date)
+      end_date = str(self.end_Date.date)
+      zid = self.transform_index_to_id(self.room_id_index_relation, self.room_dropdown.selected_value)
+      print(zid)
+      print(users)
+      anvil.server.call('booking',users,start_date,end_date,zid)
+      self.booking_comback.text = "Buchung ist erfolgreich."
+    else:
+      self.booking_comback.text = "Datum ist nicht möglich"
+      
 
+
+  def check_date(self,start_date, end_date):
+    # Define the date format
+    start = str(start_date).split("-")
+    end = str(end_date.split("-")
+              
+    if start[2] <= end[2]:
+      if start[1] <= end[1]:
+        if start[0] < end[0]:
+          return True
+        else:
+          return False
+      else:
+        return False
+    else:
+        return False
+      
+  
   def get_extra_user_id(self, main_ID):
     users_id = []
     for i in self.extra_user_index:
