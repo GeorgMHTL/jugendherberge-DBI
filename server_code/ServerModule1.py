@@ -61,7 +61,7 @@ def booking(user, start_date, end_date,ZID):
   con = sqlite3.connect(data_files["jugendherbergen_verwaltung.db"])
   cursor = con.cursor()
   print(start_date)
-  cursor.execute(f"INSERT INTO buchung (startDatum, endDatum, ZID) VALUES ({start_date},{end_date},{ZID}); ")
+  cursor.execute(f"INSERT INTO buchung (startDatum, endDatum, ZID) VALUES ('{start_date}','{end_date}',{ZID}); ")
   con.commit()
   BeID = cursor.lastrowid
   for user_id in user:
