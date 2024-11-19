@@ -71,7 +71,7 @@ class MainPage(MainPageTemplate):
   def load_room(self):
     hostel_selected = self.transform_index_to_id(self.hostel_id_index_relation, self.hostel_dropdown.selected_value)
     price_selected = self.transform_index_to_id(self.price_id_index_relation, self.price_dropdown.selected_value)
-    data_list = anvil.server.call('get_room',hostel_selected, price_selected)
+    data_list = anvil.server.call('get_room', hostel_selected, price_selected)
     data_modify = self.data_modify(data_list)
     self.room_id_index_relation = data_modify[1]
     self.room_dropdown.items = data_modify[0]  
